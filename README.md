@@ -46,11 +46,26 @@ It represents the approximated values of the next state. Taking minimum prevents
 
 ### Step 9 :
 
-We get the final target of the two Critic Models, which is:
+We get the final target of the two Critic Models, which is = reward + gamma * min(q values predicted by two critic targets). Now we have the targets, we will compare it to the predictions of the critic model.
 
-Q_t\:=\:R\:+\:\gamma\ast\min\left(Q_{t1},\:Q_{t2}\right) Q t = R + γ ∗ min ( Q t 1 , Q t 2 )
+### Staep 10 :
 
-where LaTeX: Q_t Q t  is the target-Q
+The two Critic Models each take the couple (s, a) as input and return two Q-values.
+
+### Step 11: Loss computation
+
+We compute the loss coming from two critic models as follows :
+
+Critic_loss = MSE(Qcritic1,QT) + MSE(Qcritic2,QT)
+This loss does the sum of all the mean squared error loss between the predicted Q values of all the states and actions in the transition of a batch i.e we are computing the loss over the whole batch
+
+### Step 12 :
+
+Now as we have the loss we want to update the parameters of the critic model so as to reduce the loss over iterations and we do this by back propogating the loss into two Critic models and update the weights using ADAM optimizer.
+
+##### Till this point we have done the Q learning part of the
+
+
 
 
 
