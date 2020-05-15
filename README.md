@@ -40,11 +40,17 @@ The two Critic Targets each take (s`, a`) as input and return two Q-values as ou
 
 ### Step 8 :
 
-We keep the minimum of these two Q-values: LaTeX: \min\left(Q_{t1},\:Q_{t2}\right) min ( Q t 1 , Q t 2 )
+We keep the minimum of these two Q-values
 
 It represents the approximated values of the next state. Taking minimum prevents the too optimistic estimate of value of state which was one of the drawback in classic actor critic method. Taking minimum allows to add some stability to the training process.
 
 ### Step 9 :
+
+We get the final target of the two Critic Models, which is:
+
+Q_t\:=\:R\:+\:\gamma\ast\min\left(Q_{t1},\:Q_{t2}\right) Q t = R + γ ∗ min ( Q t 1 , Q t 2 )
+
+where LaTeX: Q_t Q t  is the target-Q
 
 
 
