@@ -20,8 +20,9 @@ class Car:
         self.steering = 0.0
 
     def update(self, dt):
+        #print(dt)
         self.velocity += (self.acceleration * dt, 0)
-        print(self.velocity)
+        #print("Velocity:", self.velocity)
         self.velocity.x = max(-self.max_velocity, min(self.velocity.x, self.max_velocity))
 
         if self.steering:
@@ -31,6 +32,7 @@ class Car:
             angular_velocity = 0
 
         self.position += self.velocity.rotate(-self.angle) * dt
+        #print("Position:", self.position)
         self.angle += degrees(angular_velocity) * dt
 
 
@@ -38,21 +40,27 @@ class Game:
     def __init__(self):
         pygame.init()
         pygame.display.set_caption("Car tutorial")
-        width = 1280
-        height = 720
+        width = 1200
+        height = 554
         self.screen = pygame.display.set_mode((width, height))
+        #Adding Map to our game
+        self.map_image = pygame.image.load('C:\\Users\\sagar.agrawal\\Downloads\\EndGame\\framework_tutorial-master\\map1.png').convert()
+        self.map_rect = self.map_image.get_rect()
         self.clock = pygame.time.Clock()
         self.ticks = 60
         self.exit = False
 
     def run(self):
         current_dir = os.path.dirname(os.path.abspath(__file__))
-        image_path = os.path.join(current_dir, "car.png")
+        image_path = "C:\\Users\\sagar.agrawal\\Downloads\\EndGame\\framework_tutorial-master\\car.png"
         car_image = pygame.image.load(image_path)
+        car_image = pygame.transform.scale(car_image, (40, 20))
+        
         car = Car(0, 0)
         ppu = 32
 
         while not self.exit:
+            #print(self.clock.get_time())
             dt = self.clock.get_time() / 1000
 
             # Event queue
@@ -65,14 +73,24 @@ class Game:
 
             if pressed[pygame.K_UP]:
                 if car.velocity.x < 0:
+                    print("UP_velocity:",car.velocity.x)
                     car.acceleration = car.brake_deceleration
+                    print("UP_acceleration",car.acceleration)
                 else:
+                    print("UP_velocity:",car.velocity.x)
                     car.acceleration += 1 * dt
+                    print("UP_acceleration",car.acceleration)
+                    
             elif pressed[pygame.K_DOWN]:
                 if car.velocity.x > 0:
+                    print("Down_velocity:",car.velocity.x)
                     car.acceleration = -car.brake_deceleration
+                    print("Down_acceleration",car.acceleration)
                 else:
+                    print("Down_velocity:",car.velocity.x)
                     car.acceleration -= 1 * dt
+                    print("Down_acceleration",car.acceleration)
+                    
             elif pressed[pygame.K_SPACE]:
                 if abs(car.velocity.x) > dt * car.brake_deceleration:
                     car.acceleration = -copysign(car.brake_deceleration, car.velocity.x)
@@ -98,11 +116,10 @@ class Game:
             car.update(dt)
 
             # Drawing
-            self.screen.fill((0, 0, 0))
+            #self.screen.fill((0, 0, 0))
+            self.screen.blit(self.map_image, self.map_rect)
             rotated = pygame.transform.rotate(car_image, car.angle)
             rect = rotated.get_rect()
-            print(rect.width)
-            print(rect.height)
             self.screen.blit(rotated, car.position * ppu - (rect.width / 2, rect.height / 2))
             pygame.display.flip()
 
