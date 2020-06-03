@@ -14,7 +14,9 @@ Done : True if the episode is completed
 •	new state which consists of following:
 
 o	Updated 28x28 patch of map
+
 o	Updated angle between the velocity vector of car and the destination displacement angle w.r.t center of car
+
 o	Updated distance between the car position and destination
 
 •	Reward : Reward for taking a particular action i.e taking left or right
